@@ -1,17 +1,25 @@
 class Solution
 {
 public:
-  int nthTerm(int n)
+  int power(long long a, int b, int mod)
+  {
+    long long ans = 1;
+    while (b > 0)
+    {
+      if (b & 1)
+      {
+        ans = (ans * a) % mod;
+      }
+      a = (a * a) % mod;
+      b >>= 1;
+    }
+    return (int)ans;
+  }
+  int countNumbers(int n)
   {
     int mod = 1e9 + 7;
-    long long f[n + 1];
-    f[1] = f[2] = 1;
-    for (int i = 3; i <= n; i++)
-    {
-      f[i] = (i * f[i - 1]) % mod;
-      f[i] = (f[i] - ((i - 1) * f[i - 2]) % mod + mod) % mod;
-      f[i] = (f[i] + (i - 2) * 3) % mod;
-    }
-    return (int)f[n];
+    long long ans = power(4, n, mod) + power(3, n, mod) + 1;
+    ans %= mod;
+    return (int)ans;
   }
 };

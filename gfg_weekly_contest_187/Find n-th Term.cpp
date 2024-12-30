@@ -1,34 +1,17 @@
 class Solution
 {
 public:
-  int numWays(string &s)
+  int nthTerm(int n)
   {
-    const int mod = 1000000007;
-    int n = s.size();
-    vector<int> dp(n, 0);
-    dp[0] = 1;
-
-    for (int i = 0; i < n; i++)
+    int mod = 1e9 + 7;
+    long long f[n + 1];
+    f[1] = f[2] = 1;
+    for (int i = 3; i <= n; i++)
     {
-      if (s[i] == '0')
-      {
-        if (i + 1 < n)
-        {
-          dp[i + 1] = (dp[i + 1] + dp[i]) % mod;
-        }
-        if (i + 2 < n)
-        {
-          dp[i + 2] = (dp[i + 2] + dp[i]) % mod;
-        }
-      }
-      else
-      {
-        if (i + 1 < n)
-        {
-          dp[i + 1] = (dp[i + 1] + dp[i]) % mod;
-        }
-      }
+      f[i] = (i * f[i - 1]) % mod;
+      f[i] = (f[i] - ((i - 1) * f[i - 2]) % mod + mod) % mod;
+      f[i] = (f[i] + (i - 2) * 3) % mod;
     }
-    return dp[n - 1];
+    return (int)f[n];
   }
 };
